@@ -1,0 +1,43 @@
+{
+  "ABCDE": [
+    "",
+    "pool/",
+    "films/",
+    "match.html",
+    "relays.html",
+    "minfree.html",
+    "BMKR/",
+    "prism/",
+    "peers/"
+  ],
+  "beacn-drep-web": [
+    ""
+  ],
+  "cardano-devtools-directory": [
+    "",
+    "docs/"
+  ],
+  "ledger-scrolls": [
+    "",
+    "films/",
+    "media.html",
+    "calculator.html",
+    "ledger-book.html",
+    "ledger-chess.html",
+    "reader.html",
+    "build-a-reader/",
+    "vault-tool.html"
+  ],
+  "NFT-Studio": [
+    "",
+    "mcp/",
+    "workbench/",
+    "payload-qr/",
+    "showcase/make-your-own/",
+    "showcase/science-five/",
+    "tools/ledger/"
+  ],
+  "town-ledger": [
+    ""
+  ]
+}

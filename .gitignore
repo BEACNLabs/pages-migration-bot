@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+work/
+evidence/
+reports/
+backups/
+.venv/

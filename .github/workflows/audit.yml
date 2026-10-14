@@ -1,0 +1,48 @@
+name: Audit Pages after account rename
+on:
+  workflow_dispatch:
+    inputs:
+      owner:
+        description: Current GitHub account
+        default: BEACNLabs
+        required: true
+      previous_owner:
+        description: Previous GitHub account name
+        default: BEACNpool
+        required: true
+  push:
+    branches: [main]
+    paths:
+      - pages_bot.py
+      - test_pages_bot.py
+      - routes.json
+      - .github/workflows/audit.yml
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest -v test_pages_bot
+      - name: Audit public Pages sites
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PAGES_OWNER: ${{ inputs.owner || github.repository_owner }}
+          PREVIOUS_OWNER: ${{ inputs.previous_owner || 'BEACNpool' }}
+        run: python3 pages_bot.py audit --owner "$PAGES_OWNER" --previous-owner "$PREVIOUS_OWNER" --routes routes.json --output reports/audit.json --fail-on-issues
+      - name: Publish audit summary
+        if: always()
+        run: |
+          if [ -f reports/audit.md ]; then
+            cat reports/audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: pages-migration-audit
+          path: reports/
+          retention-days: 30
